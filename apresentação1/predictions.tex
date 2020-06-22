@@ -1,0 +1,17 @@
+\section{Testes}
+
+Como vimos anteriormente criamos um array de labels que identifica a que cluster pertence cada uma das fotografias que temos. Nesta secção vamos usar tanto essas labels quanto as fotografias para criar uma SVM capaz de classificar fotografias em diversos estágios de maturidade. \newline
+Antes de criarmos a SVM devemos ter em atenção alguns problemas que podemos ter com o nosso dataset ou até com as funções usadas na SVM. Para isso iremos numa primeira fase verificar a correção dos casos de treino que possuimos e adicionalmente verificaremos, para cada caso ouconjunto de casos de treino qual a função da SVM que melhor permite destinguir os clusters classificando melhor as fotografias de teste.
+
+\subsection{Preparação}
+
+O primeiro passo a realizar é gerar as combinações de casos de treino a usar no treino da nossa SVM. Para isso foi criado um array que contem as diferentes combinações de casos de treino possíveis (as combinações são independentes da posição em que aparecem os casos).\newline
+Adicionalmente foi criado um \textit{switch} que permite alternar entre o tipo das funções usadas para distinguir clusters sendo as opções: \textit{Linear}, \textit{Exponencial} ou \textit{Sigmoid}.
+
+\subsection{Implementação}
+
+Na implementação foi criado um loop para iterar pelas diferentes combinações de casos filtrando todas as fotografias de treino e respetivas labels que não pertencessem aos casos alvo. Em seguida iteramos entre as diferentes hipóteses do \textit{switch} previamente criado para cada conjunto de casos usados de forma a podermos analisar quais as melhores combinações de casos e funções que maximizam a precisão das previsões da nosa SVM.
+
+\subsection{Análise}
+
+

@@ -1,0 +1,39 @@
+\section{Clusters}
+
+\subsection{Obtenção do número ótimo de clusters}
+
+Para o cálculo do número ótimo de clusters foi utilizada a técnica de \textit{Within Cluster Sum of Squares}. 
+Esta algoritmo consiste em escolher k clusters aleatóriamente dos dados que possuimos. Posteriormente calculam-se, para cada ponto, as distâncias Euclidianas entre estes e cada um dos clusters e junta-se cada ponto ao cluster cuja distância é menor.\newline
+No fim somam-se as distâncias todas para cada um dos clusters e divide-se pelo número de pontos do cluster obtendo assim a média das distâncias para cada cluster.\newline
+Esta técnica foi aplicada para números de clusters que variaram entre 2 e 21. Á medida que o número de clusters aumenta a distância obtida tende para 0, no entanto estamos a tentar identificar o número ótimo de clusters que se pautará pelo melhor compromisso entre divisão em clusters e eficiência. Esta relação é maximizada com a aplicação do método do cotovelo, referido anteriormente, ao gráfico obtido pela representação dos pontos obtidos (cada ponto tem como cordenadas o número de clusters e a distância da soma de quadrados intra-cluster). Aplicando a regra do cotovelo ao gráfico obtido o número de clusters ótimo que obtemos é 6.
+
+\begin{figure}[h]
+ 
+	\centering
+ 	\includegraphics[width=5cm]{kernels_plot.png} 
+	\caption{Gráfico da soma de quadrados intra-cluster por número de kernels}
+\end{figure}
+
+
+
+\subsection{Criação dos clusters com os dados}
+
+
+Como foi visto anteriormente, os dados estão distribuidos por diferentes canais. Como cada canal tem caraterísticas diferentes não faz sentido criar clusters inter-canais. Por isso vamos criar clusters inter-casos intra-canais.\newline
+Para atingirmos este objetivo, começamos por criar um array para cada canal onde reunimos todas as fotografias do nosso dataset de treino pertencentes a esse canal, chamemos D á dimensão deste array. Posteriormente para cada um destes arrays criamos uma matriz de dimensões D x D onde calculamos a distância Euclidiana entre todas as fotografias do array. Note-se que a distância entre uma fotografia e ela mesma é 0, isto leva a que se quisermos juntar os dois clusters mais próximos baseando-nos apenas na distancia independentemente da linha e coluna em que estamos vamos obter sempre uma junção do cluster a si mesmo. Para contornar esta dificuldade em cada linha a distancia do cluster a si mesmo foi substituida pelo dobro da distância máxima entre esse cluster e outro cluster diferente. Adicionalmente foi criado um array de arrays de Labels a que a cada foto existente foi atribuida uma label correspondente ao seu index no array de fotografias. Cada um dos arrays  em que uma label está representa um cluster, assim ao juntarmos clusters podemos juntar igualmente duas labels sem que estas labels sofram alterações numéricas.\newline
+Cada matriz que foi criada foi então iterada tantas vezes quanto a diferença entre o número de clusters inicial (no inicio do processo cada foto representa um cluster) e o número ótimo de clusters calculado anteriormente. \newline
+A cada iteração um novo cluster foi definido como sendo a junção de dois clusters previanente existentes. Esta junção baseou-se nos dois clusters mais próximos entre si e as distancias calculadas entre este novo cluster e cada um dos restantes clusters são dadas pela distancia média entre cada cluster e os dois clusters anteriores. As labels destes clusters foram também agregadas num mesmo array.\newline
+\par Após a agregação das labels representativas das fotografias para cada canal por clusters, temos de atribuir uma mesma label a cada elemento do cluster. Isto é feito recorrendo á label em si que representa a posição da foto no array de fotos, com isto basta-nos percorrer cada array de labels, que corresponde a um cluster e, num segundo array, na posição cujo indice é a label (convêm relembrar que cada label corresponde á posição da fotografia que esta representa no array de fotografias) colocar o número representativo do cluster a que pertence.\newline
+Por fim basta-nos reverter a agregação de fotografias por canal e intercalar as labels geradas 11 a 11 entre os arrays representativos dos canais.\newline
+
+
+\begin{figure}[h]
+ 
+	\centering
+ 	\includegraphics[width=\textwidth]{labelingClusters.png} 
+	\caption{Gráfico da soma de quadrados intra-cluster por número de kernels}
+\end{figure}
+
+
+
+

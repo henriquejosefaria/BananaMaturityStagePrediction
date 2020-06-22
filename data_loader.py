@@ -415,6 +415,7 @@ def calculate_new_clusters(euc,optimal_clusters,current_clusters,clusters_per_ca
 		for l in labels:
 			response[l] = count
 		count += 1
+	
 	'''
 	for c in range(4):
 		print("\n\nPara o caso " + str(c+1) + " teremos as seguintes correspondencias entre ts e labels:")
