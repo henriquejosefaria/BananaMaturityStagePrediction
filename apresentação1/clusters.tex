@@ -23,7 +23,7 @@ Como foi visto anteriormente, os dados estão distribuidos por diferentes canais
 Para atingirmos este objetivo, começamos por criar um array para cada canal onde reunimos todas as fotografias do nosso dataset de treino pertencentes a esse canal, chamemos D á dimensão deste array. Posteriormente para cada um destes arrays criamos uma matriz de dimensões D x D onde calculamos a distância Euclidiana entre todas as fotografias do array. Note-se que a distância entre uma fotografia e ela mesma é 0, isto leva a que se quisermos juntar os dois clusters mais próximos baseando-nos apenas na distancia independentemente da linha e coluna em que estamos vamos obter sempre uma junção do cluster a si mesmo. Para contornar esta dificuldade em cada linha a distancia do cluster a si mesmo foi substituida pelo dobro da distância máxima entre esse cluster e outro cluster diferente. Adicionalmente foi criado um array de arrays de Labels a que a cada foto existente foi atribuida uma label correspondente ao seu index no array de fotografias. Cada um dos arrays  em que uma label está representa um cluster, assim ao juntarmos clusters podemos juntar igualmente duas labels sem que estas labels sofram alterações numéricas.\newline
 Cada matriz que foi criada foi então iterada tantas vezes quanto a diferença entre o número de clusters inicial (no inicio do processo cada foto representa um cluster) e o número ótimo de clusters calculado anteriormente. \newline
 A cada iteração um novo cluster foi definido como sendo a junção de dois clusters previanente existentes. Esta junção baseou-se nos dois clusters mais próximos entre si e as distancias calculadas entre este novo cluster e cada um dos restantes clusters são dadas pela distancia média entre cada cluster e os dois clusters anteriores. As labels destes clusters foram também agregadas num mesmo array.\newline
-\par Após a agregação das labels representativas das fotografias para cada canal por clusters, temos de atribuir uma mesma label a cada elemento do cluster. Isto é feito recorrendo á label em si que representa a posição da foto no array de fotos, com isto basta-nos percorrer cada array de labels, que corresponde a um cluster e, num segundo array, na posição cujo indice é a label (convêm relembrar que cada label corresponde á posição da fotografia que esta representa no array de fotografias) colocar o número representativo do cluster a que pertence.\newline
+\par Após a agregação das labels representativas das fotografias para cada canal por clusters, temos de atribuir uma mesma label a cada elemento do cluster. Isto é feito recorrendo á label em si que representa a posição da foto no array de fotografias, com isto basta-nos percorrer cada array de labels, que corresponde a um cluster e, num segundo array, na posição cujo indice é a label (convêm relembrar que cada label corresponde á posição da fotografia que esta representa no array de fotografias) colocar o número representativo do cluster a que pertence.\newline
 Por fim basta-nos reverter a agregação de fotografias por canal e intercalar as labels geradas 11 a 11 entre os arrays representativos dos canais.\newline
 
 
@@ -33,6 +33,18 @@ Por fim basta-nos reverter a agregação de fotografias por canal e intercalar a
  	\includegraphics[width=\textwidth]{labelingClusters.png} 
 	\caption{Gráfico da soma de quadrados intra-cluster por número de kernels}
 \end{figure}
+
+\par Na seguinte figura, é apresentada uma exemplificação do método de agregração de \textbf{clusters}.
+Os pontos apresentados a vermelho correspondem aos pontos de um \textbf{cluster} e os pontos a azul a outro.
+Sejam estes designados por $C1$ e $C2$, respetivamente. Os seus centróides, estão representados a preto.
+
+\par Considera-se um ponto $P$, representado a ciano. $d1$ e $d2$ denota a distância Euclidiana de $P$ ao centróide de
+$C1$ e ao centróide de $C2$, respetivamente.
+Como é possível observar, $d1 < d2$. Então, $P$ é agregado a $C1$.
+
+\par De seguida, é calculado o novo centróide para $C1$.
+
+\par É, também, relevante notar que este processo pode ser aplicado a \textbf{clusters} e não só a pontos.
 
 
 
